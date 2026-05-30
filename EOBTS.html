@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Dashboard Preview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --primary-color: #5d59e1;
+            --primary-light: #eeedf3;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            
+            --blue: #3b82f6;
+            --orange: #f97316;
+            --purple: #a855f7;
+            --green: #22c55e;
+            --teal: #14b8a6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-muted);
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .avatar {
+            background: #5d59e1;
+            color: white;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        /* Layout Structure */
+        .main-layout {
+            display: flex;
+            min-height: calc(100vh - 57px);
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .primary-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .nav-btn.active, .nav-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .search-box input, .sort-box select, .task-search {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        button { cursor: pointer; font-weight: 600; }
+        .btn-primary { background: var(--primary-color); color: white; border: none; border-radius: 6px; padding: 10px;}
+        .btn-secondary { background: white; color: var(--text-main); border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;}
+        .btn-export { background: #e0f2fe; color: #0369a1; border: none; border-radius: 6px; padding: 10px; width: 100%; }
+
+        /* Employee List Block */
+        .employee-list-section {
+            margin-top: 10px;
+            overflow-y: auto;
+            max-height: 350px;
+        }
+        .employee-list-section h3 {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin: 15px 0 8px 0;
+        }
+        .employee-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+        }
+        .emp-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .p-1 { background: #ff4b72; } .p-2 { background: #1d90ff; }
+        .c-1 { background: #8b5cf6; }
+        .emp-info { display: flex; flex-direction: column; }
+        .emp-name { font-size: 13px; font-weight: 600; }
+        .status-tag { font-size: 10px; font-weight: bold; display: inline-block; padding: 2px 6px; border-radius: 4px; margin-top: 2px;}
+        .status-tag.progress { background: #eff6ff; color: #1e40af; }
+        .status-tag.progress .pct { color: var(--text-muted); font-weight: normal; margin-left: 4px;}
+        .status-tag.completed { background: #dcfce7; color: #166534; }
+
+        /* Main Content Workspace */
+        .content-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        .view-pane { display: none; }
+        .view-pane.active { display: block; }
+
+        .view-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .subtitle { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+        .date-badge { background: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+
+        /* Uniform Card Styles */
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+        }
+
+        /* Top Metrics Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .metric-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .metric-card h3 { font-size: 24px; }
+        .metric-card p { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+        .icon-wrapper {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .blue { background: #eff6ff; color: var(--blue); }
+        .orange { background: #fff7ed; color: var(--orange); }
+        .purple { background: #faf5ff; color: var(--purple); }
+        .green { background: #f0fdf4; color: var(--green); }
+        .gray { background: #f8fafc; color: var(--text-muted); }
+        .teal { background: #f0fdfa; color: var(--teal); }
+
+        /* Analytics Visualization Group */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .progress-hero {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .hero-pct {
+            font-size: 64px;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+        .progress-bar-container {
+            background: #f1f5f9;
+            border-radius: 10px;
+            height: 12px;
+            width: 80%;
+            margin: 15px auto;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            background: var(--primary-color);
+            height: 100%;
+            border-radius: 10px;
+        }
+        .progress-hero p { font-size: 13px; color: var(--text-muted); }
+
+        /* Distribution Component */
+        .dist-list { display: flex; flex-direction: column; gap: 14px; margin-top: 15px;}
+        .dist-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;}
+        .dist-label .count { color: var(--text-muted); }
+        .dist-bar { background: #f1f5f9; height: 8px; border-radius: 4px; overflow: hidden; }
+        .dist-fill { background: var(--primary-color); height: 100%; border-radius: 4px; }
+
+        /* Task Block Formatting */
+        .tasks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .task-search { width: 200px; padding: 6px 12px; }
+        .task-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-top: 1px solid var(--border-color);
+        }
+        .task-details { display: flex; flex-direction: column; gap: 2px;}
+        .task-details .subtext { font-size: 12px; color: var(--text-muted); }
+        .task-stats { display: flex; gap: 20px; text-align: center;}
+        .task-stats .num { font-size: 18px; font-weight: bold; display: block;}
+        .task-stats .lbl { font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: bold;}
+
+        /* Empty State Fallback Screen */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        .empty-state i { font-size: 48px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <header class="top-nav">
+            <div class="logo">uas</div>
+            <div class="user-profile">
+                <span class="avatar">U</span>
+                <span class="user-name">User Account</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            <aside class="sidebar">
+                <nav class="primary-nav">
+                    <button class="nav-btn active" data-target="dashboard-view">
+                        <i class="fa-solid fa-chart-pie"></i> Dashboard
+                    </button>
+                    <button class="nav-btn" data-target="archives-view">
+                        <i class="fa-solid fa-box-archive"></i> Archives
+                    </button>
+                </nav>
+
+                <div class="search-box">
+                    <input type="text" placeholder="Search employees...">
+                </div>
+
+                <div class="sort-box">
+                    <select>
+                        <option>Sort by: Name (A-Z)</option>
+                    </select>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-secondary"><i class="fa-solid fa-file-import"></i> Import</button>
+                    <button class="btn-primary"><i class="fa-solid fa-plus"></i> Add</button>
+                </div>
+                <button class="btn-export"><i class="fa-solid fa-file-export"></i> Export</button>
+
+                <div class="employee-list-section">
+                    <h3>In Progress & Pending</h3>
+                    <div class="employee-item">
+                        <div class="emp-avatar p-1">EE</div>
+                        <div class="emp-info">
+                            <span class="emp-name">[Employee Name]</span>
+                            <span class="status-tag progress">In Progress <span class="pct">38%</span></span>
+                        </div>
+                    </div>
+                    <div class="employee-item">
+                        <div class="emp-avatar p-2">EE</div>
+                        <div class="emp-info">
+                            <span class="emp-name">[Employee Name]</span>
+                            <span class="status-tag progress">In Progress <span class="pct">97%</span></span>
+                        </div>
+                    </div>
+
+                    <h3>Completed</h3>
+                    <div class="employee-item">
+                        <div class="emp-avatar c-1">EE</div>
+                        <div class="emp-info">
+                            <span class="emp-name">[Employee Name]</span>
+                            <span class="status-tag completed">Complete 100%</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="content-area">
+                
+                <div id="dashboard-view" class="view-pane active">
+                    <div class="view-header">
+                        <div>
+                            <h2>Onboarding Dashboard</h2>
+                            <p class="subtitle">Real-time summary of employee onboarding progress</p>
+                        </div>
+                        <div class="date-badge">May 21, 2026</div>
+                    </div>
+
+                    <div class="metrics-grid">
+                        <div class="card metric-card">
+                            <div class="icon-wrapper blue"><i class="fa-solid fa-users"></i></div>
+                            <div><h3>11</h3><p>Total Employees</p></div>
+                        </div>
+                        <div class="card metric-card">
+                            <div class="icon-wrapper orange"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div><h3>0</h3><p>Action Required</p></div>
+                        </div>
+                        <div class="card metric-card">
+                            <div class="icon-wrapper purple"><i class="fa-solid fa-spinner"></i></div>
+                            <div><h3>4</h3><p>In Progress</p></div>
+                        </div>
+                        <div class="card metric-card">
+                            <div class="icon-wrapper green"><i class="fa-solid fa-circle-check"></i></div>
+                            <div><h3>7</h3><p>Completed (100%)</p></div>
+                        </div>
+                        <div class="card metric-card">
+                            <div class="icon-wrapper gray"><i class="fa-solid fa-list-check"></i></div>
+                            <div><h3>--</h3><p>Total Files</p></div>
+                        </div>
+                        <div class="card metric-card">
+                            <div class="icon-wrapper teal"><i class="fa-solid fa-file-arrow-up"></i></div>
+                            <div><h3>--</h3><p>Total Submitted Files</p></div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-grid">
+                        <div class="card progress-analytics">
+                            <h3>Overall Progress</h3>
+                            <div class="progress-hero">
+                                <span class="hero-pct">83%</span>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill" style="width: 83%;"></div>
+                                </div>
+                                <p>Average onboarding completion across all employees</p>
+                            </div>
+                        </div>
+
+                        <div class="card distribution-analytics">
+                            <h3>Department Distribution</h3>
+                            <div class="dist-list">
+                                <div class="dist-item">
+                                    <div class="dist-label"><span>Department A</span><span class="count">--</span></div>
+                                    <div class="dist-bar"><div class="dist-fill" style="width: 40%;"></div></div>
+                                </div>
+                                <div class="dist-item">
+                                    <div class="dist-label"><span>Department B</span><span class="count">--</span></div>
+                                    <div class="dist-bar"><div class="dist-fill" style="width: 60%;"></div></div>
+                                </div>
+                                <div class="dist-item">
+                                    <div class="dist-label"><span>Department C</span><span class="count">--</span></div>
+                                    <div class="dist-bar"><div class="dist-fill" style="width: 25%;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card tasks-section">
+                        <div class="tasks-header">
+                            <h3>Task Completion Summary</h3>
+                            <input type="text" class="task-search" placeholder="Search tasks...">
+                        </div>
+                        <div class="task-row">
+                            <div class="task-details">
+                                <strong>[Task Group Title]</strong>
+                                <span class="subtext">Internal Docs</span>
+                            </div>
+                            <div class="task-stats">
+                                <div><span class="num blue">--</span><span class="lbl">Completed</span></div>
+                                <div><span class="num orange">--</span><span class="lbl">Incomplete</span></div>
+                            </div>
+                        </div>
+                        <div class="task-row">
+                            <div class="task-details">
+                                <strong>[Task Group Title]</strong>
+                                <span class="subtext">External Docs</span>
+                            </div>
+                            <div class="task-stats">
+                                <div><span class="num blue">--</span><span class="lbl">Completed</span></div>
+                                <div><span class="num orange">--</span><span class="lbl">Incomplete</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="archives-view" class="view-pane">
+                    <div class="view-header">
+                        <h2>Archives</h2>
+                        <p class="subtitle">Archived onboarding sessions and records.</p>
+                    </div>
+                    <div class="card empty-state">
+                        <i class="fa-solid fa-box-open"></i>
+                        <p>No archived records found.</p>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const navButtons = document.querySelectorAll(".nav-btn");
+            const viewPanes = document.querySelectorAll(".view-pane");
+
+            navButtons.forEach(button => {
+                button.addEventListener("click", () => {
+                    // Reset UI status of sidebar buttons and layout cards
+                    navButtons.forEach(btn => btn.classList.remove("active"));
+                    viewPanes.forEach(pane => pane.classList.remove("active"));
+
+                    // Toggle selected option states
+                    button.classList.add("active");
+
+                    // Swap visibility targets
+                    const targetViewId = button.getAttribute("data-target");
+                    const targetView = document.getElementById(targetViewId);
+                    if (targetView) {
+                        targetView.classList.add("active");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

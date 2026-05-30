@@ -1,0 +1,12 @@
+.section {
+    opacity:0;
+    /* scale:0; */
+    transition: 3s ease;
+    /*translate: -50%;*/
+}
+
+.section.show{
+    opacity:1;
+    /* scale:1; */
+    /* translate:0; */
+}
