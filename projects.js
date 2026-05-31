@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
             speed: "0.024s",
             memory: "22.1 MB",
             dialect: "Laravel / PHP / MySQL",
-            link: "https://github.com/MrcGvnLr/Lorskie-Store",
+            link: "emsdemo.html",
             tree: [
                 { name: "📂 uastrack-edms", indent: 0 },
                 { name: "📂 app", indent: 1 },
@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
             speed: "0.019s",
             memory: "19.6 MB",
             dialect: "Laravel / PHP / SQLite",
-            link: "https://github.com/MrcGvnLr/Lorskie-Store",
+            link: "trackerdemo.html",
             tree: [
                 { name: "📂 uas-eobts-onboarding", indent: 0 },
                 { name: "📂 app", indent: 1 },
@@ -367,8 +367,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.link && data.link !== '#') {
             termLiveLink.href = data.link;
             termLiveLink.style.display = 'inline-flex';
+            termLiveLink.target = '_blank';
+            termLiveLink.rel = 'noopener';
             if (data.link.includes('scratch.mit.edu')) {
                 termLiveLink.innerHTML = '<i class="fas fa-play"></i> PLAY GAME';
+            } else if (data.link.endsWith('.html')) {
+                termLiveLink.innerHTML = '<i class="fas fa-external-link-alt"></i> VIEW DEMO';
             } else {
                 termLiveLink.innerHTML = '<i class="fab fa-github"></i> BROWSE CODE';
             }

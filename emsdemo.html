@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STRACK - Staff Management Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-[#e9effd] min-h-screen text-slate-800 p-4 md:p-6">
+
+  <div class="max-w-[1440px] mx-auto space-y-6">
+    
+    <header class="bg-white rounded-2xl px-6 py-3 flex justify-between items-center shadow-sm">
+      <div class="flex items-center space-x-2">
+        <span class="text-2xl font-bold tracking-tight text-slate-700">STRACK</span>
+        <div class="h-6 w-[2px] bg-slate-300 mx-2"></div>
+        <div>
+          <h1 class="text-sm font-bold tracking-wider text-slate-900 leading-none"></h1>
+          <p class="text-[10px] text-slate-400 font-medium tracking-wide">STAFF MANAGEMENT DEMO</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center space-x-2 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-100">
+        <div class="w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center text-white text-xs font-bold">ML</div>
+        <span class="text-xs font-semibold text-slate-700">Sample Username</span>
+        <svg class="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+      </div>
+    </header>
+
+    <nav class="bg-[#f3f6fc] rounded-2xl p-2 flex flex-wrap gap-2 shadow-inner">
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn bg-[#f0c243] text-slate-900 font-semibold px-6 py-2.5 rounded-xl text-sm shadow-sm flex items-center space-x-2 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        <span>Dashboard</span>
+      </button>
+      <button onclick="switchTab('employees')" id="nav-employees" class="nav-btn text-slate-500 hover:text-slate-800 font-medium px-5 py-2.5 rounded-xl text-sm flex items-center space-x-2 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        <span>Employees</span>
+      </button>
+      <button onclick="switchTab('tenure')" id="nav-tenure" class="nav-btn text-slate-500 hover:text-slate-800 font-medium px-5 py-2.5 rounded-xl text-sm flex items-center space-x-2 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span>Tenure</span>
+      </button>
+      <button class="text-slate-500 hover:text-slate-800 font-medium px-5 py-2.5 rounded-xl text-sm flex items-center space-x-2 transition ml-auto">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+        <span>Import</span>
+      </button>
+      <button class="text-slate-500 hover:text-slate-800 font-medium px-5 py-2.5 rounded-xl text-sm flex items-center space-x-2 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        <span>Export</span>
+      </button>
+    </nav>
+
+    <main id="view-dashboard" class="grid grid-cols-1 lg:grid-cols-4 gap-6 tab-view">
+      <section class="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 flex flex-col h-[600px]">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="font-bold text-lg text-slate-800">Clients</h2>
+          <div class="flex space-x-1.5">
+            <button class="p-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg></button>
+            <button class="p-2 bg-[#f0c243] text-slate-900 rounded-lg"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg></button>
+          </div>
+        </div>
+        <input type="text" id="dashboardClientSearch" placeholder="Filter clients" class="w-full text-sm bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 mb-4 focus:outline-none focus:ring-2 focus:ring-amber-400">
+        <div class="space-y-2 overflow-y-auto flex-1">
+          <button onclick="filterDashboardByClient('UAS')" class="dash-client-btn w-full text-left font-semibold text-slate-700 bg-amber-50/50 hover:bg-amber-50 border border-amber-100/60 p-3.5 rounded-xl transition text-sm">Headquarters</button>
+          <button onclick="filterDashboardByClient('SCP')" class="dash-client-btn w-full text-left font-semibold text-slate-700 bg-amber-50/50 hover:bg-amber-50 border border-amber-100/60 p-3.5 rounded-xl transition text-sm">Client1</button>
+          <button onclick="filterDashboardByClient('MCH')" class="dash-client-btn w-full text-left font-semibold text-slate-700 bg-amber-50/50 hover:bg-amber-50 border border-amber-100/60 p-3.5 rounded-xl transition text-sm">Client2</button>
+                    <button onclick="filterDashboardByClient('MCH')" class="dash-client-btn w-full text-left font-semibold text-slate-700 bg-amber-50/50 hover:bg-amber-50 border border-amber-100/60 p-3.5 rounded-xl transition text-sm">Client2</button>
+
+        </div>
+      </section>
+
+      <section class="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 lg:col-span-2 flex flex-col h-[600px]">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="font-bold text-lg text-slate-800">All Employees</h2>
+          <button onclick="resetDashboardFilter()" class="p-2 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-100 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.212 11H16"></path></svg></button>
+        </div>
+        <div class="flex-1 overflow-y-auto">
+          <table class="w-full text-left border-separate border-spacing-y-2">
+            <thead>
+              <tr class="bg-slate-50 text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                <th class="p-3 rounded-l-xl">Photo</th>
+                <th class="p-3">Full Name</th>
+                <th class="p-3">Status</th>
+                <th class="p-3 rounded-r-xl">Assigned Status</th>
+              </tr>
+            </thead>
+            <tbody id="dashboardTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 flex flex-col h-[600px]">
+        <h2 class="font-bold text-lg text-slate-800 mb-4">Notifications</h2>
+        <div class="space-y-3 overflow-y-auto flex-1">
+          <div class="bg-blue-50/50 border border-blue-100 p-3.5 rounded-2xl"><div class="flex justify-between items-start mb-1"><p class="text-xs font-bold text-slate-800">Employee1 deployed</p><span class="text-[9px] font-bold bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">DEPLOYMENT</span></div><p class="text-[11px] text-slate-400">Deployed to Client1 on May 31, 2026</p></div>
+          <div class="bg-emerald-50/50 border border-emerald-100 p-3.5 rounded-2xl"><div class="flex justify-between items-start mb-1"><p class="text-xs font-bold text-slate-800">Employee2 returned</p><span class="text-[9px] font-bold bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded">RETURNED</span></div><p class="text-[11px] text-slate-400">Returned to Client2 on May 31, 2026</p></div>
+          <div class="bg-amber-50/50 border border-amber-100 p-3.5 rounded-2xl"><div class="flex justify-between items-start mb-1"><p class="text-xs font-bold text-slate-800">Upcoming birthday:<br>Employee3</p><span class="text-[9px] font-bold bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">BIRTHDAY</span></div><p class="text-[11px] text-slate-400">Birthday in 1 days on Jun 01</p></div>
+        </div>
+      </section>
+    </main>
+
+
+    <main id="view-employees" class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 hidden tab-view space-y-6">
+      <div class="flex flex-wrap justify-between items-center gap-4">
+        <h2 class="font-bold text-xl text-slate-800">All Employees</h2>
+        <div class="flex space-x-2">
+          <button class="p-2.5 bg-[#f0c243] text-slate-900 rounded-xl hover:bg-[#dbaf35] transition shadow-sm"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path></svg></button>
+          <button class="p-2.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-xl transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
+          <button onclick="resetEmployeeFilters()" class="p-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 rounded-xl transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.212 11H16"></path></svg></button>
+          <button class="p-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-gradient-to-br from-amber-50 to-orange-50/40 border border-amber-100 p-5 rounded-2xl flex justify-between items-center">
+          <div><p class="text-[11px] font-bold text-amber-600 uppercase tracking-wider">Total Registered</p><p class="text-3xl font-bold text-slate-850 mt-1">110</p></div>
+          <div class="p-3 bg-amber-500/10 text-amber-600 rounded-full"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg></div>
+        </div>
+        <div class="bg-gradient-to-br from-emerald-50 to-teal-50/40 border border-emerald-100 p-5 rounded-2xl flex justify-between items-center">
+          <div><p class="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">Ready To Deploy</p><p class="text-3xl font-bold text-slate-850 mt-1">107</p></div>
+          <div class="p-3 bg-emerald-500/10 text-emerald-600 rounded-full"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9 4a1 1 0 10-2-2M9 13a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1zm3 0a1 1 0 100-2h-1a1 1 0 100 2h1z" clip-rule="evenodd"></path></svg></div>
+        </div>
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50/40 border border-blue-100 p-5 rounded-2xl flex justify-between items-center">
+          <div><p class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">Deployed</p><p class="text-3xl font-bold text-blue-600 mt-1">3</p></div>
+          <div class="p-3 bg-blue-500/10 text-blue-600 rounded-full"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0010 15c-2.796 0-5.487-.46-8-1.308z"></path></svg></div>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-3">
+        <input type="text" id="employeeSearchInput" oninput="filterEmployeesTable()" placeholder="Search employees by name..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+        <select id="sortNameSelect" onchange="filterEmployeesTable()" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 focus:outline-none">
+          <option value="asc">Sort by Name (A-Z)</option>
+          <option value="desc">Sort by Name (Z-A)</option>
+        </select>
+        <select id="statusFilterSelect" onchange="filterEmployeesTable()" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 focus:outline-none">
+          <option value="all">All Statuses</option>
+          <option value="Available">Available</option>
+          <option value="Deployed">Deployed</option>
+        </select>
+      </div>
+
+      <div class="overflow-x-auto max-h-[380px] overflow-y-auto">
+        <table class="w-full text-left border-separate border-spacing-y-2">
+          <thead>
+            <tr class="bg-slate-50 text-[11px] font-bold tracking-wider text-slate-400 uppercase sticky top-0 z-10">
+              <th class="p-3 rounded-l-xl">Photo</th>
+              <th class="p-3">Full Name</th>
+              <th class="p-3">Status</th>
+              <th class="p-3">Assigned Status</th>
+              <th class="p-3">Position</th>
+              <th class="p-3 rounded-r-xl">Phone</th>
+            </tr>
+          </thead>
+          <tbody id="employeesViewTableBody"></tbody>
+        </table>
+      </div>
+    </main>
+
+
+    <main id="view-tenure" class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 hidden tab-view space-y-6">
+      <div class="flex justify-between items-center">
+        <h2 class="font-bold text-xl text-slate-800">Employee Tenure</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-teal-50/40 border border-teal-100 p-4 rounded-2xl flex justify-between items-center">
+          <div><p class="text-[10px] font-bold text-teal-600 uppercase tracking-wider">3-4 Months Tenure</p><p class="text-2xl font-bold text-slate-800 mt-0.5">0</p></div>
+          <div class="p-2.5 bg-teal-500/10 text-teal-600 rounded-xl"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+        </div>
+        <div class="bg-purple-50/40 border border-purple-100 p-4 rounded-2xl flex justify-between items-center">
+          <div><p class="text-[10px] font-bold text-purple-600 uppercase tracking-wider">5 Months Tenure</p><p class="text-2xl font-bold text-slate-800 mt-0.5">0</p></div>
+          <div class="p-2.5 bg-purple-500/10 text-purple-600 rounded-xl"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+        </div>
+        <div class="bg-orange-50/40 border border-orange-100 p-4 rounded-2xl flex justify-between items-center">
+          <div><p class="text-[10px] font-bold text-orange-600 uppercase tracking-wider">6-11 Months Tenure</p><p class="text-2xl font-bold text-slate-800 mt-0.5">20</p></div>
+          <div class="p-2.5 bg-orange-500/10 text-orange-600 rounded-xl"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+        </div>
+        <div class="bg-blue-50/40 border border-blue-100 p-4 rounded-2xl flex justify-between items-center">
+          <div><p class="text-[10px] font-bold text-blue-600 uppercase tracking-wider">1+ Year Tenure</p><p class="text-2xl font-bold text-blue-600 mt-0.5">90</p></div>
+          <div class="p-2.5 bg-blue-500/10 text-blue-600 rounded-xl"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4v4m0 0l-4-4m4 4l4-4m-12 4h12M4 21h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <input type="text" id="tenureSearchInput" oninput="filterTenureTable()" placeholder="Search employees" class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none">
+        <select id="tenureSortSelect" onchange="filterTenureTable()" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 focus:outline-none">
+          <option value="asc">Name (A-Z)</option>
+          <option value="desc">Name (Z-A)</option>
+        </select>
+      </div>
+
+      <div class="overflow-x-auto max-h-[380px] overflow-y-auto">
+        <table class="w-full text-left border-separate border-spacing-y-2">
+          <thead>
+            <tr class="bg-slate-50 text-[11px] font-bold tracking-wider text-slate-400 uppercase sticky top-0 z-10">
+              <th class="p-3 rounded-l-xl">Photo</th>
+              <th class="p-3">Full Name</th>
+              <th class="p-3">Hired Date</th>
+              <th class="p-3">Tenure</th>
+              <th class="p-3">Position</th>
+              <th class="p-3 rounded-r-xl">Client</th>
+            </tr>
+          </thead>
+          <tbody id="tenureViewTableBody"></tbody>
+        </table>
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    // Shared Full Database List matching all images
+    const employeesData = [
+      { id: 1, name: "Sample, Name1", initial: "G", status: "Regular", assigned: "Available", client: "Client1", position: "IT Technical Support", phone: "-", hiredDate: "Jan 21, 2025", tenureStr: "1 yr 4 mos" },
+      { id: 2, name: "Sample, Name2", initial: "E", status: "Regular", assigned: "Deployed", client: "Client2", position: "IT Technical Support", phone: "", hiredDate: "Sep 06, 2024", tenureStr: "1 yr 8 mos" },
+      { id: 3, name: "Sample, Name3", initial: "J", status: "Regular", assigned: "Available", client: "Client3", position: "Network Engineer", phone: "", hiredDate: "Dec 11, 2023", tenureStr: "2 yrs 5 mos" },
+      { id: 4, name: "Sample, Name4", initial: "L", status: "Regular", assigned: "Available", client: "Client4", position: "Service Delivery Lead", phone: "", hiredDate: "Nov 21, 2022", tenureStr: "3 yrs 6 mos" },
+      { id: 5, name: "Sample, Name5", initial: "R", status: "Regular", assigned: "Deployed", client: "Client5", position: "Cadet Engineer", phone: "", hiredDate: "Jul 07, 2025", tenureStr: "10 mos" },
+      { id: 6, name: "Sample, Name6", initial: "C", status: "Regular", assigned: "Available", client: "Client6", position: "NOC Engineer", phone: "", hiredDate: "Aug 07, 2023", tenureStr: "2 yrs 9 mos" },
+      { id: 7, name: "Sample, Name7", initial: "G", status: "Regular", assigned: "Available", client: "Client7", position: "IT Technical Support", phone: "", hiredDate: "May 15, 2024", tenureStr: "2 yrs" }
+    ];
+
+    // --- TAB SWITCHER LOGIC ---
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-view').forEach(view => view.classList.add('hidden'));
+      document.getElementById(`view-${tabId}`).classList.remove('hidden');
+
+      // Update Tab Navigation Active Styling
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-[#f0c243]', 'text-slate-900', 'font-semibold', 'shadow-sm');
+        btn.classList.add('text-slate-500', 'hover:text-slate-800', 'font-medium');
+      });
+
+      const activeBtn = document.getElementById(`nav-${tabId}`);
+      activeBtn.classList.add('bg-[#f0c243]', 'text-slate-900', 'font-semibold', 'shadow-sm');
+      activeBtn.classList.remove('text-slate-500', 'hover:text-slate-800', 'font-medium');
+
+      // Refresh corresponding table views
+      if (tabId === 'dashboard') renderDashboardTable(employeesData);
+      if (tabId === 'employees') filterEmployeesTable();
+      if (tabId === 'tenure') filterTenureTable();
+    }
+
+    // --- VIEW 1: DASHBOARD CONTROL LOGIC ---
+    function renderDashboardTable(data) {
+      const tbody = document.getElementById('dashboardTableBody');
+      tbody.innerHTML = '';
+      data.forEach(emp => {
+        const badgeColor = emp.assigned === 'Available' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-blue-50 text-blue-600 border border-blue-100';
+        tbody.insertAdjacentHTML('beforeend', `
+          <tr class="bg-slate-50/40 hover:bg-slate-50 transition">
+            <td class="p-3 rounded-l-xl"><div class="w-7 h-7 bg-slate-200 rounded-lg flex items-center justify-center font-bold text-xs text-slate-600">${emp.initial}</div></td>
+            <td class="p-3 text-xs font-semibold text-slate-700">${emp.name}</td>
+            <td class="p-3"><span class="text-[11px] px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-500 border border-indigo-100">${emp.status}</span></td>
+            <td class="p-3 rounded-r-xl"><span class="text-[11px] font-bold px-3 py-1 rounded-lg ${badgeColor}">${emp.assigned}</span></td>
+          </tr>
+        `);
+      });
+    }
+
+    function filterDashboardByClient(client) {
+      document.querySelectorAll('.dash-client-btn').forEach(btn => {
+        if(btn.innerText.trim() === client) btn.classList.add('bg-amber-100', 'ring-2', 'ring-amber-200');
+        else btn.classList.remove('bg-amber-100', 'ring-2', 'ring-amber-200');
+      });
+      renderDashboardTable(employeesData.filter(e => e.client === client));
+    }
+
+    function resetDashboardFilter() {
+      document.querySelectorAll('.dash-client-btn').forEach(btn => btn.classList.remove('bg-amber-100', 'ring-2', 'ring-amber-200'));
+      renderDashboardTable(employeesData);
+    }
+
+    // --- VIEW 2: EMPLOYEES CONTROL LOGIC ---
+    function filterEmployeesTable() {
+      const search = document.getElementById('employeeSearchInput').value.toLowerCase();
+      const sort = document.getElementById('sortNameSelect').value;
+      const status = document.getElementById('statusFilterSelect').value;
+
+      let filtered = employeesData.filter(emp => emp.name.toLowerCase().includes(search));
+      if (status !== 'all') filtered = filtered.filter(emp => emp.assigned === status);
+      
+      filtered.sort((a, b) => sort === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+
+      const tbody = document.getElementById('employeesViewTableBody');
+      tbody.innerHTML = '';
+      filtered.forEach(emp => {
+        const badgeColor = emp.assigned === 'Available' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-blue-50 text-blue-600 border border-blue-100';
+        tbody.insertAdjacentHTML('beforeend', `
+          <tr class="bg-slate-50/40 hover:bg-slate-50 transition">
+            <td class="p-3 rounded-l-xl"><div class="w-7 h-7 bg-slate-200 rounded-lg flex items-center justify-center font-bold text-xs text-slate-600">${emp.initial}</div></td>
+            <td class="p-3 text-xs font-semibold text-slate-700">${emp.name}</td>
+            <td class="p-3"><span class="text-[11px] px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-500 border border-indigo-100">${emp.status}</span></td>
+            <td class="p-3"><span class="text-[11px] font-bold px-3 py-1 rounded-lg ${badgeColor}">${emp.assigned}</span></td>
+            <td class="p-3 text-xs font-medium text-slate-600">${emp.position}</td>
+            <td class="p-3 rounded-r-xl text-xs text-slate-500">${emp.phone || '-'}</td>
+          </tr>
+        `);
+      });
+    }
+
+    function resetEmployeeFilters() {
+      document.getElementById('employeeSearchInput').value = '';
+      document.getElementById('sortNameSelect').value = 'asc';
+      document.getElementById('statusFilterSelect').value = 'all';
+      filterEmployeesTable();
+    }
+
+    // --- VIEW 3: TENURE CONTROL LOGIC ---
+    function filterTenureTable() {
+      const search = document.getElementById('tenureSearchInput').value.toLowerCase();
+      const sort = document.getElementById('tenureSortSelect').value;
+
+      let filtered = employeesData.filter(emp => emp.name.toLowerCase().includes(search));
+      filtered.sort((a, b) => sort === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+
+      const tbody = document.getElementById('tenureViewTableBody');
+      tbody.innerHTML = '';
+      filtered.forEach(emp => {
+        tbody.insertAdjacentHTML('beforeend', `
+          <tr class="bg-slate-50/40 hover:bg-slate-50 transition">
+            <td class="p-3 rounded-l-xl"><div class="w-7 h-7 bg-slate-200 rounded-lg flex items-center justify-center font-bold text-xs text-slate-600">${emp.initial}</div></td>
+            <td class="p-3 text-xs font-semibold text-slate-700">${emp.name}</td>
+            <td class="p-3 text-xs text-slate-600">${emp.hiredDate}</td>
+            <td class="p-3 text-xs font-bold text-slate-700">${emp.tenureStr}</td>
+            <td class="p-3 text-xs font-medium text-slate-600">${emp.position}</td>
+            <td class="p-3 rounded-r-xl text-xs font-bold text-amber-600">${emp.client}</td>
+          </tr>
+        `);
+      });
+    }
+
+    // Dashboard clients list search bar filtering interaction
+    document.getElementById('dashboardClientSearch').addEventListener('input', function(e) {
+      const term = e.target.value.toLowerCase();
+      document.querySelectorAll('.dash-client-btn').forEach(btn => {
+        btn.style.display = btn.innerText.toLowerCase().includes(term) ? 'block' : 'none';
+      });
+    });
+
+    // Run Initial Setup on system ready
+    renderDashboardTable(employeesData);
+  </script>
+</body>
+</html>
