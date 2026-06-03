@@ -372,6 +372,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const quoteItems = [
         {
+            message: '“When you talk, you are only repeating what you already know. But if you listen, you might learn something new.”',
+            author: '— Dalai Lama'
+        },
+        {
             message: '“Being weak does not mean there is no room for you to grow.”',
             author: '— Gabin'
         },
@@ -398,6 +402,10 @@ document.addEventListener("DOMContentLoaded", function () {
         {
             message: '“Algorithm: A word used by developers when they don\'t want to explain how their code works.”',
             author: '— Random Programmer'
+        },
+        {
+            message: '“All is Well”',
+            author: '— Ranchoddas "Rancho" Shamaldas Chanchad (3 Idiots)'
         }
     ];
 
