@@ -372,6 +372,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const quoteItems = [
         {
+            message: '“Being weak does not mean there is no room for you to grow.”',
+            author: '— Gabin'
+        },
+        {
             message: '“It works perfectly on my machine. If it breaks in production, it\'s a server issue!”',
             author: '— every programmer ever'
         },
