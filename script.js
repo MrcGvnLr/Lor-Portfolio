@@ -4,8 +4,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const roles = [
         "Student",
         "Learner",
-        "Web Developer",
         "System Developer",
+        "Quality Assurance Tester",
+        "Web Developer",
+        "Software Engineer",
+        "Data Analyst",
         "Creative Thinker",
         "Tech Enthusiast",
     ];
@@ -406,12 +409,30 @@ document.addEventListener("DOMContentLoaded", function () {
         {
             message: '“All is Well”',
             author: '— Ranchoddas "Rancho" Shamaldas Chanchad (3 Idiots)'
+        },
+        {
+            message: '“If you\'re so behind, why are you always the youngest in the room”',
+            author: '— Unknown'
         }
     ];
+
+    // Shuffle quotes once (Fisher-Yates) so order is randomized
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    shuffleArray(quoteItems);
 
     let currentQuote = 0;
     const quoteMessage = document.querySelector('.interactive-message');
     const quoteAuthor = document.querySelector('.interactive-meta');
+
+    // Display first quote immediately
+    if (quoteMessage) quoteMessage.textContent = quoteItems[currentQuote].message;
+    if (quoteAuthor) quoteAuthor.textContent = quoteItems[currentQuote].author;
 
     function rotateQuote() {
         currentQuote = (currentQuote + 1) % quoteItems.length;
@@ -423,7 +444,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    setInterval(rotateQuote, 5200);
+    setInterval(rotateQuote, 6000); // Rotate every 6 seconds
 
     // ==========================================
     // 5. INTERACTIVE PROGRAMMER CONTACT ME PAYLOAD
