@@ -81,7 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
             speed: "0.008s",
             memory: "14.8 MB",
             dialect: "PHP / MySQL",
-            link: "https://github.com/MrcGvnLr/Lorskie-Store",
+            codeLink: "https://github.com/MrcGvnLr/Lorskie-Store",
+            demoLink: "",
             tree: [
                 { name: "📂 root", indent: 0 },
                 { name: "📂 config", indent: 1 },
@@ -119,7 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
             speed: "0.016s",
             memory: "32.4 MB",
             dialect: "Scratch Engine",
-            link: "https://scratch.mit.edu/projects/969228217/",
+            codeLink: "https://scratch.mit.edu/projects/969228217/",
+            demoLink: "https://scratch.mit.edu/projects/969228217/",
             tree: [
                 { name: "📂 undead-ascension", indent: 0 },
                 { name: "📂 assets", indent: 1 },
@@ -156,7 +158,8 @@ document.addEventListener('DOMContentLoaded', function() {
             speed: "0.045s",
             memory: "8.2 MB",
             dialect: "SQL / Excel",
-            link: "https://github.com/MrcGvnLr/World-Layoffs-Data-cleaning",
+            codeLink: "https://github.com/MrcGvnLr/World-Layoffs-Data-cleaning",
+            demoLink: "",
             tree: [
                 { name: "📂 World-Layoffs-Analysis", indent: 0 },
                 { name: "📂 sql", indent: 1 },
@@ -189,7 +192,8 @@ document.addEventListener('DOMContentLoaded', function() {
             speed: "0.082s",
             memory: "18.5 MB",
             dialect: "MySQL / Excel",
-            link: "#",
+            codeLink: "#",
+            demoLink: "",
             tree: [
                 { name: "📂 market-basket-analysis", indent: 0 },
                 { name: "📂 sql", indent: 1 },
@@ -220,7 +224,8 @@ document.addEventListener('DOMContentLoaded', function() {
             speed: "0.024s",
             memory: "22.1 MB",
             dialect: "Laravel / PHP / MySQL",
-            link: "emsdemo.html",
+            codeLink: "https://github.com/MrcGvnLr/Lorskie-Store",
+            demoLink: "emsdemo.html",
             tree: [
                 { name: "📂 uastrack-edms", indent: 0 },
                 { name: "📂 app", indent: 1 },
@@ -264,7 +269,8 @@ document.addEventListener('DOMContentLoaded', function() {
             speed: "0.019s",
             memory: "19.6 MB",
             dialect: "Laravel / PHP / SQLite",
-            link: "trackerdemo.html",
+            codeLink: "https://github.com/MrcGvnLr/Lorskie-Store",
+            demoLink: "trackerdemo.html",
             tree: [
                 { name: "📂 uas-eobts-onboarding", indent: 0 },
                 { name: "📂 app", indent: 1 },
@@ -317,15 +323,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let logTimeouts = [];
 
-    // Attach click listeners to all INSPECT SYS buttons
+    // Attach click listeners to all project action buttons
     inspectButtons.forEach(btn => {
+        const projectKey = btn.getAttribute('data-project');
+        const data = projectData[projectKey];
+
+        if (!data) return;
+
+        const action = btn.getAttribute('data-action') || 'code';
+        const link = action === 'demo' ? (data.demoLink || data.link || '#') : (data.codeLink || data.link || '#');
+        const isDemoAction = action === 'demo';
+        const iconClass = isDemoAction ? 'fas fa-external-link-alt' : 'fab fa-github';
+        const labelText = isDemoAction ? 'BROWSE DEMO' : 'BROWSE CODE';
+
+        btn.innerHTML = `<i class="${iconClass}"></i> ${labelText}`;
+        btn.setAttribute('type', 'button');
+
         btn.addEventListener('click', function(e) {
             e.stopPropagation();
-            const projectKey = this.getAttribute('data-project');
-            const data = projectData[projectKey];
-            
-            if (data) {
-                openTerminal(data);
+            if (link && link !== '#') {
+                window.open(link, '_blank', 'noopener');
             }
         });
     });

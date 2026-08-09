@@ -3459,16 +3459,23 @@ textarea {
     border-color: #00b0f0;
 }
 
-/* INSPECT SYS TERMINAL BUTTON */
+/* PROJECT ACTION BUTTONS */
+.project-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
 .inspect-btn {
-    width: 100%;
+    flex: 1;
+    min-width: 0;
     padding: 10px;
     background: transparent;
     border: 1px solid rgba(0, 176, 240, 0.4);
     color: #00b0f0;
     border-radius: 6px;
     font-family: monospace;
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     font-weight: 700;
     cursor: pointer;
     display: flex;
@@ -3477,7 +3484,7 @@ textarea {
     gap: 8px;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     letter-spacing: 0.5px;
-    margin-top: 10px;
+    min-height: 44px;
 }
 
 .inspect-btn i {
