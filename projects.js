@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
             speed: "0.024s",
             memory: "22.1 MB",
             dialect: "Laravel / PHP / MySQL",
-            codeLink: "https://github.com/MrcGvnLr/Lorskie-Store",
+            codeLink: "https://github.com/MrcGvnLr/UAS-EMS",
             demoLink: "emsdemo.html",
             tree: [
                 { name: "📂 uastrack-edms", indent: 0 },
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
             speed: "0.019s",
             memory: "19.6 MB",
             dialect: "Laravel / PHP / SQLite",
-            codeLink: "https://github.com/MrcGvnLr/Lorskie-Store",
+            codeLink: "https://github.com/MrcGvnLr/UASEOTMS",
             demoLink: "trackerdemo.html",
             tree: [
                 { name: "📂 uas-eobts-onboarding", indent: 0 },
